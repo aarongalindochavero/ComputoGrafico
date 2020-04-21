@@ -26,21 +26,32 @@ void Menu::Init(Platform* platform, GameStateManager* manager)
 void Menu::LoadModels()
 {
 	unsigned int indices[] = {
-		0, 3, 1,
-		1, 3, 2,
-		2, 3, 0,
-		0, 1, 2
+		0,1,2,
+		0,2,3,
+		1,5,6,
+		1,2,6,
+		0,1,5,
+		0,4,5,
+		2,3,6,
+		3,6,7,
+		0,3,4,
+		3,4,7
 	};
 
 	GLfloat vertices[] = {
-		-1.0f, -1.0f, 0.0f,
-		0.0f, -1.0f, 1.0f,
-		1.0f, -1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f
+		0.0f,0.0f,0.0f,
+		1.0f,0.0f,0.0f,
+		1.0f,1.0f,0.0f,
+		0.0f,1.0f,0.0f,
+		0.0f,0.0f,1.0f,
+		1.0f,0.0f,1.0f,
+		1.0f,1.0f,1.0f,
+		0.0f,1.0f,1.0f
 	};
+	
 
 	Mesh *obj1 = new Mesh();
-	obj1->CreateMesh(vertices, indices, 12, 12);
+	obj1->CreateMesh(vertices, indices, 24, 24);
 	meshList.push_back(obj1);
 }
 void Menu::LoadShaders()
