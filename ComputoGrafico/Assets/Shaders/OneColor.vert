@@ -8,6 +8,9 @@ uniform mat4 model;
 uniform mat4 projection;
 uniform mat4 view;
 
+uniform vec3 color1;
+uniform vec3 color2;
+
 
 void main()
 {
@@ -15,10 +18,10 @@ void main()
 
 	if (gl_Position.z > 0.5f)
 	{
-		vCol = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+		vCol = vec4(color1, 1.0f);
 	}
 	else 
 	{
-		vCol = vec4(0.0f, 0.0f, 1.0f, 1.0f);
+		vCol = vec4(color2, 1.0f);
 	}
 }

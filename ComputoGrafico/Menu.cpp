@@ -59,11 +59,7 @@ void Menu::LoadModels()
 {
 	unsigned int indices[] = {
 				0,1,2,
-				2,3,0,
-				0,4,3,
-				4,7,3,
-				3,7,6,
-				6,3,2
+				2,3,0
 	};
 
 	GLfloat vertices[] = {
@@ -78,9 +74,9 @@ void Menu::LoadModels()
 		1.0,  1.0, -1.0,1.0f, 1.0f,		0.0f, 0.0f, 0.0f,1.0f, 0.0f, 0.0f,//6
 		-1.0,  1.0, -1.0,0.0f, 1.0f,		0.7f, -0.7f, 0.0f,1.0f, 0.0f, 0.0f,//7
 	};
-	calcAverageNormals(indices, 18, vertices, 88, 11, 5);
+	calcAverageNormals(indices, 6, vertices, 88, 11, 5);
 	Mesh *obj1 = new Mesh();
-	obj1->CreateMesh(vertices, indices, 88, 18, 11);
+	obj1->CreateMesh(vertices, indices, 88, 6, 11);
 	meshList.push_back(obj1);
 }
 void Menu::LoadShaders()
@@ -101,13 +97,17 @@ void Menu::Draw()
 	meshList[0]->RenderMesh();
 
 
-	shaderManager->Activate("default");
+	/*shaderManager->Activate("OneColor");
 	shaderManager->draw();
 	uniformModel = shaderManager->GetModelLocation();
+	GLint color1 = shaderManager->GetColor1();
+	GLint color2 = shaderManager->GetColor2();
 	model = glm::translate(model, glm::vec3(10.0f, 0.0f, -8.5f));
 	model = glm::scale(model, glm::vec3(0.7f, 0.4f, 1.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	meshList[0]->RenderMesh();
+	glUniform3f(color1, 0.0f, 1.0f, 0.0f);
+	glUniform3f(color2, 1.0f, 0.0f, 0.0f);
+	meshList[0]->RenderMesh();*/
 
 	platform->RenderPresent();
 }

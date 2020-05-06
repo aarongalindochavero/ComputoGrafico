@@ -16,6 +16,8 @@ public:
 	void initShader(Camera* camera);
 	void draw();
 	GLint GetModelLocation();
+	GLint GetColor1();
+	GLint GetColor2();
 	GLint GetViewLocation();
 	GLint GetProjectionLocation();
 	GLint GetSpecularIntensityLocation();
@@ -31,6 +33,7 @@ private:
 	Camera* camera;
 	glm::mat4 projection;
 	GLuint uniformProjection = 0, uniformModel = 0, uniformView = 0;
+	GLuint color1, color2;
 
 	GLuint  uniformEyePosition = 0,
 		uniformAmbientIntensity = 0, uniformAmbientColour = 0, uniformDirection = 0, uniformDiffuseIntensity = 0,
