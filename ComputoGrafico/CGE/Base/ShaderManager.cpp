@@ -52,6 +52,16 @@ GLint ShaderManager::GetColor2()
 	return color2;
 }
 
+GLint ShaderManager::GetPlayerPos()
+{
+	return playerPos;
+}
+
+GLint ShaderManager::GetLightDir()
+{
+	return lightDir;
+}
+
 GLint ShaderManager::GetSpecularIntensityLocation()
 {
 	return uniformSpecularIntensity;
@@ -101,5 +111,7 @@ void ShaderManager::Activate(const std::string& name)
 		uniformView = currentShader->GetViewLocation();
 		color1 = currentShader->GetColor1();
 		color2 = currentShader->GetColor2();
+		playerPos = currentShader->GetPlayerPositionId();//obtenemos la posicion del jugador y se la asignamos
+		lightDir = currentShader->GetLightDir();
 	}
 }

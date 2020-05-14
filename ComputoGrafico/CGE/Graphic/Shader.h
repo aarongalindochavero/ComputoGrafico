@@ -24,6 +24,10 @@ public:
 	GLuint GetColor1();
 	GLuint GetColor2();
 
+	GLuint GetPlayerPositionId();//devuelve la posicion del jugador
+
+	GLuint GetLightDir();
+
 	void UseShader();
 	void ClearShader();
 
@@ -32,6 +36,8 @@ public:
 private:
 	GLuint shaderID, uniformProjection, uniformModel, uniformView;
 	GLuint color1, color2;
+	GLuint playerPos;
+	GLuint lightDir;
 
 	void CompileShader(const char* vertexCode, const char* fragmentCode);
 	void AddShader(GLuint theProgram, const char* shaderCode, GLenum shaderType);

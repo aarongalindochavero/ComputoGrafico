@@ -83,6 +83,8 @@ void Shader::CompileShader(const char* vertexCode, const char* fragmentCode)
 	
 	color1 = glGetUniformLocation(shaderID, "color1");
 	color2 = glGetUniformLocation(shaderID, "color2");
+	playerPos = glGetUniformLocation(shaderID, "playerPos");//guarda el id de la variable que opengl le da
+	lightDir = glGetUniformLocation(shaderID, "lightDir");
 }
 
 GLuint Shader::GetProjectionLocation()
@@ -106,6 +108,16 @@ GLuint Shader::GetColor1()
 GLuint Shader::GetColor2()
 {
 	return color2;
+}
+
+//devuelve la posicion del jugador
+GLuint Shader::GetPlayerPositionId() {
+	return playerPos;
+}
+
+GLuint Shader::GetLightDir()
+{
+	return lightDir;
 }
 
 void Shader::UseShader()
