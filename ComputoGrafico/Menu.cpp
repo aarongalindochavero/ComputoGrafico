@@ -94,6 +94,16 @@ void Menu::LoadShaders()
 void Menu::Draw()
 {
 	platform->RenderClear();
+	shaderManager->Activate("toon-shader");
+	shaderManager->draw();
+	glm::mat4 model(1);
+	GLint uniformModel = shaderManager->GetModelLocation();
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f));
+	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	meshList[0]->RenderMesh();
+
+	/*platform->RenderClear();
 	if (camera.getShaderChange()) {
 		shaderManager->Activate("phong-shader");
 	}
@@ -106,25 +116,24 @@ void Menu::Draw()
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	meshList[0]->RenderMesh();*/
+
+
+	shaderManager->Activate("toon-shader");
+	shaderManager->draw();
+	uniformModel = shaderManager->GetModelLocation();
+	GLint color1 = shaderManager->GetColor1();
+	GLint color2 = shaderManager->GetColor2();
+	GLint playerPos = shaderManager->GetPlayerPos();
+	GLint lightDir = shaderManager->GetLightDir();
+	model = glm::translate(model, glm::vec3(10.0f, 0.0f, -8.5f));
+	model = glm::scale(model, glm::vec3(0.7f, 0.4f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	glUniform3f(color1, 0.0f, 1.0f, 0.0f);
+	glUniform3f(color2, 1.0f, 0.0f, 0.0f);
+	glUniform3f(playerPos, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);//le mandas la variable al shader
+	glUniform3f(lightDir, rand(), rand(), rand());
 	meshList[0]->RenderMesh();
-
-
-	//shaderManager->Activate("toon-shader");
-	//shaderManager->draw();
-	//uniformModel = shaderManager->GetModelLocation();
-	//GLint color1 = shaderManager->GetColor1();
-	//GLint color2 = shaderManager->GetColor2();
-	//GLint playerPos = shaderManager->GetPlayerPos();
-	//GLint lightDir = shaderManager->GetLightDir();
-	//model = glm::translate(model, glm::vec3(10.0f, 0.0f, -8.5f));
-	//model = glm::scale(model, glm::vec3(0.7f, 0.4f, 1.0f));
-	//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//glUniform3f(color1, 0.0f, 1.0f, 0.0f);
-	//glUniform3f(color2, 1.0f, 0.0f, 0.0f);
-	//glUniform3f(playerPos, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);//le mandas la variable al shader
-	////glUniform3f(lightDir, 0.61, 0.61, 61);
-	//glUniform3f(lightDir, rand(), rand(), rand());
-	//meshList[0]->RenderMesh();
 
 	platform->RenderPresent();
 }
