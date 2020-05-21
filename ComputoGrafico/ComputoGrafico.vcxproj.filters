@@ -125,5 +125,17 @@
     <None Include="Assets\Shaders\toon-shader.vert">
       <Filter>Assets\Shaders</Filter>
     </None>
+    <None Include="Assets\Shaders\OneColorB.frag">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="Assets\Shaders\OneColorB.vert">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="Assets\Shaders\OneColorG.frag">
+      <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="Assets\Shaders\OneColorG.vert">
+      <Filter>Assets\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

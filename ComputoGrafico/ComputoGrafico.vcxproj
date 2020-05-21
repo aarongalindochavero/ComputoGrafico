@@ -155,6 +155,10 @@
     <None Include="Assets\Shaders\gouraud-shader.vert" />
     <None Include="Assets\Shaders\OneColor.frag" />
     <None Include="Assets\Shaders\OneColor.vert" />
+    <None Include="Assets\Shaders\OneColorB.frag" />
+    <None Include="Assets\Shaders\OneColorB.vert" />
+    <None Include="Assets\Shaders\OneColorG.frag" />
+    <None Include="Assets\Shaders\OneColorG.vert" />
     <None Include="Assets\Shaders\phong-shader.frag" />
     <None Include="Assets\Shaders\phong-shader.vert" />
     <None Include="Assets\Shaders\rainbow-shader.frag" />

@@ -15,7 +15,7 @@ void main()
 
     if (gl_Position.z > 0.5f)
     {
-        vCol = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+        vCol = vec4(0.0f, 1.0f, 0.0f, 1.0f);
     }
     else 
     {

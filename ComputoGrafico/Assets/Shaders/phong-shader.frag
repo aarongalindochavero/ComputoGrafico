@@ -14,6 +14,7 @@ vec3 ADSLightModel( in vec3 myNormal, in vec3 myPosition )
 	const vec3 myMaterialDiffuse = vec3( 1.0 , 0.5, 0.0 );
 	const vec3 myMaterialSpecular = vec3( 0.6, 0.6, 0.6 );
 	const float myMaterialShininess = 10.0;
+
 	//normal, light, view, and light reflection vectors
 	vec3 norm = normalize( myNormal );
 	vec3 lightv = normalize( myLightPosition - myPosition);

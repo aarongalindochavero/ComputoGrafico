@@ -4,6 +4,10 @@
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
 
+bool activeR = true;
+bool activeG = false;
+bool activeB = false;
+
 void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
 	unsigned int vLength, unsigned int normalOffset)
 {
@@ -50,6 +54,8 @@ void Menu::Init()
 	shaderManager = ShaderManager::getPtr();
 	shaderManager->initShader(&camera);
 	shaderManager->LoadShaders("OneColor", "Assets/Shaders/OneColor.vert", "Assets/Shaders/OneColor.frag");
+	shaderManager->LoadShaders("OneColorG", "Assets/Shaders/OneColorG.vert", "Assets/Shaders/OneColorG.frag");
+	shaderManager->LoadShaders("OneColorB", "Assets/Shaders/OneColorB.vert", "Assets/Shaders/OneColorB.frag");
 	shaderManager->LoadShaders("gouraud-shader", "Assets/Shaders/gouraud-shader.vert", "Assets/Shaders/gouraud-shader.frag");
 	shaderManager->LoadShaders("phong-shader", "Assets/Shaders/phong-shader.vert", "Assets/Shaders/phong-shader.frag");//compila el shader y enlaza
 	shaderManager->LoadShaders("distance-color", "Assets/Shaders/distance-color.vert", "Assets/Shaders/distance-color.frag");
@@ -94,37 +100,48 @@ void Menu::LoadShaders()
 void Menu::Draw()
 {
 	platform->RenderClear();
-	if (camera.getShaderChange()) {
+	/*if (camera.getShaderChange()) {
 		shaderManager->Activate("phong-shader");
 	}
 	else {
 		shaderManager->Activate("gouraud-shader");
 	}
-	shaderManager->draw();
+	shaderManager->draw();*/
 	glm::mat4 model(1);
 	GLint uniformModel = shaderManager->GetModelLocation();
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f));
+	/*model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	meshList[0]->RenderMesh();
+	meshList[0]->RenderMesh();*/
 
 
-	//shaderManager->Activate("toon-shader");
-	//shaderManager->draw();
-	//uniformModel = shaderManager->GetModelLocation();
-	//GLint color1 = shaderManager->GetColor1();
-	//GLint color2 = shaderManager->GetColor2();
-	//GLint playerPos = shaderManager->GetPlayerPos();
-	//GLint lightDir = shaderManager->GetLightDir();
-	//model = glm::translate(model, glm::vec3(10.0f, 0.0f, -8.5f));
-	//model = glm::scale(model, glm::vec3(0.7f, 0.4f, 1.0f));
-	//glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	//glUniform3f(color1, 0.0f, 1.0f, 0.0f);
-	//glUniform3f(color2, 1.0f, 0.0f, 0.0f);
-	//glUniform3f(playerPos, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);//le mandas la variable al shader
-	////glUniform3f(lightDir, 0.61, 0.61, 61);
+	//shaderManager->Activate("OneColor-shader");
+	if (activeR == true)
+	{
+		shaderManager->Activate("OneColor");
+	}
+	if (activeG == true)
+	{
+		shaderManager->Activate("OneColorG");
+	}
+	if (activeB == true)
+	{
+		shaderManager->Activate("OneColorB");
+	}
+	shaderManager->draw();
+	uniformModel = shaderManager->GetModelLocation();
+	GLint color1 = shaderManager->GetColor1();
+	GLint color2 = shaderManager->GetColor2();
+	GLint playerPos = shaderManager->GetPlayerPos();
+	GLint lightDir = shaderManager->GetLightDir();
+	model = glm::translate(model, glm::vec3(10.0f, 0.0f, -8.5f));
+	model = glm::scale(model, glm::vec3(0.7f, 0.4f, 1.0f));
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+
+	glUniform3f(playerPos, camera.getCameraPosition().x, camera.getCameraPosition().y, camera.getCameraPosition().z);//le mandas la variable al shader
+	glUniform3f(lightDir, 0.11, 0.61, 61);
 	//glUniform3f(lightDir, rand(), rand(), rand());
-	//meshList[0]->RenderMesh();
+	meshList[0]->RenderMesh();
 
 	platform->RenderPresent();
 }
@@ -139,6 +156,24 @@ bool Menu::MouseInput(int x, int y, bool leftbutton)
 bool Menu::Input(std::map<int, bool> keys)
 {
 	camera.keyControl(keys, platform->GetDeltaTime());
+	if (keys[GLFW_KEY_R])
+	{
+		activeR = true;
+		activeG = false;
+		activeB = false;
+	}
+	if (keys[GLFW_KEY_G])
+	{
+		activeG = true;
+		activeR = false;
+		activeB = false;
+	}
+	if (keys[GLFW_KEY_B])
+	{
+		activeB = true;
+		activeG = false;
+		activeR = false;
+	}
 	return false;
 }
 
