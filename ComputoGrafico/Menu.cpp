@@ -57,9 +57,13 @@ void Menu::Init()
 		
 	LoadModels();
 	weapon = new Model();
-	weapon->LoadModel("Assets/Models/pina_pose.obj");
+	/*weapon->LoadModel("Assets/Models/pina.obj");
 	weapon->AddTexture("pina.png");
-	weapon->AddTexture("pina_normal.png");
+	weapon->AddTexture("pina_normal.png");*/
+
+	weapon->LoadModel("Assets/Models/Tyre.obj");
+	weapon->AddTexture("tire.png");
+	weapon->AddTexture("tire_normal.png");
 
 	srand(time(NULL));
 	angle = 0;
@@ -108,19 +112,19 @@ void Menu::LoadShaders()
 void Menu::Draw()
 {
 	platform->RenderClear();
-	shaderManager->Activate("phong-shader");
-	shaderManager->draw();
+	/*shaderManager->Activate("phong-shader");
+	shaderManager->draw();*/
 	glm::mat4 model(1);
-	GLint uniformModel = shaderManager->GetModelLocation();
+	/*GLint uniformModel = shaderManager->GetModelLocation();
 	model = glm::translate(model, glm::vec3(0.0f, 0.0f, -2.5f));
 	model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	texture->UseTexture(GL_TEXTURE0);
 	texture->UseTexture(GL_TEXTURE1);
-	meshList[0]->RenderMesh();
+	meshList[0]->RenderMesh();*/
 
 	
-	shaderManager->Activate("phong-shader");
+	/*shaderManager->Activate("phong-shader");
 	shaderManager->draw();
 	uniformModel = shaderManager->GetModelLocation();
 	GLint color1 = shaderManager->GetColor1();
@@ -130,14 +134,14 @@ void Menu::Draw()
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	glUniform3f(color1, 0, angle, 0.0f );
 	angle = angle + 1.0f;
-	glUniform3f(color2, 0.0f, 0.0f, 1.0f);
+	glUniform3f(color2, 0.0f, 0.0f, 1.0f);*/
 
 	meshList[0]->RenderMesh();
 
 	shaderManager->Activate("phong-shader");
 	shaderManager->draw();
-	transform.SetTranslation(0.0f, 0.0f, 0.0f);
-	transform.SetScale(1.1f, 1.1f, 1.11f);
+	transform.SetTranslation(3.0f, -0.75f, 3.0f);
+	transform.SetScale(0.05f, 0.05f, 0.05f);
 	transform.SetRotation(0, 0, 0);
 	weapon->SetTransform(&transform);
 	weapon->Draw();
