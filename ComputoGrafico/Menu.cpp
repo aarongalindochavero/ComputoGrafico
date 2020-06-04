@@ -124,18 +124,18 @@ void Menu::Draw()
 	model = glm::scale(model, glm::vec3(100.0f, 10.0f, 100.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 	mainTexture->UseTexture(GL_TEXTURE0);
-	rTexture->UseTexture(GL_TEXTURE1);
-	gTexture->UseTexture(GL_TEXTURE2);
-	bTexture->UseTexture(GL_TEXTURE3);
-	blendTexture->UseTexture(GL_TEXTURE4);
-	normalTexture->UseTexture(GL_TEXTURE5);
+	//rTexture->UseTexture(GL_TEXTURE1);
+	//gTexture->UseTexture(GL_TEXTURE2);
+	//bTexture->UseTexture(GL_TEXTURE3);
+	//blendTexture->UseTexture(GL_TEXTURE4);
+	normalTexture->UseTexture(GL_TEXTURE1);
 
-	glUniform1i(shaderManager->GetmainTex(), 0);
-	glUniform1i(shaderManager->GetrTex(), 1);
-	glUniform1i(shaderManager->GetgTex(), 2);
-	glUniform1i(shaderManager->GetbTex(), 3);
-	glUniform1i(shaderManager->GetblendTexture(), 4);
-	glUniform1i(shaderManager->GetNormalTexture(), 5);
+	//glUniform1i(shaderManager->GetmainTex(), 0);
+	//glUniform1i(shaderManager->GetrTex(), 1);
+	//glUniform1i(shaderManager->GetgTex(), 2);
+	//glUniform1i(shaderManager->GetbTex(), 3);
+	//glUniform1i(shaderManager->GetblendTexture(), 4);
+	//glUniform1i(shaderManager->GetNormalTexture(), 5);
 
 
 	meshList[0]->RenderMesh();

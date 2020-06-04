@@ -26,6 +26,9 @@
     <Filter Include="Assets\Shaders\Default">
       <UniqueIdentifier>{1e3942ff-49fe-4a7d-8a74-46ba389ebe19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CGE\Graphic\Lights">
+      <UniqueIdentifier>{658e3bb2-469b-45c5-9014-4f679046ae01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -70,6 +73,15 @@
     <ClCompile Include="CGE\Graphic\Skybox.cpp">
       <Filter>CGE\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="CGE\Graphic\Lights\DirectionalLight.cpp">
+      <Filter>CGE\Graphic\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="CGE\Graphic\Lights\Light.cpp">
+      <Filter>CGE\Graphic\Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="CGE\Graphic\Lights\PointLight.cpp">
+      <Filter>CGE\Graphic\Lights</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -110,6 +122,15 @@
     </ClInclude>
     <ClInclude Include="CGE\Graphic\Skybox.h">
       <Filter>CGE\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="CGE\Graphic\Lights\DirectionalLight.h">
+      <Filter>CGE\Graphic\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="CGE\Graphic\Lights\Light.h">
+      <Filter>CGE\Graphic\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="CGE\Graphic\Lights\PointLight.h">
+      <Filter>CGE\Graphic\Lights</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

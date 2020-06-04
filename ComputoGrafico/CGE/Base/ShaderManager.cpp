@@ -104,6 +104,25 @@ void ShaderManager::draw()
 		currentShader->UseShader();
 		glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
+
+		mainLight = DirectionalLight(0.0f, 0.0f, 0.0f,
+			1.0, 1.0f,
+			0.0f, 0.0f, -1.0f);
+
+		unsigned int pointLightCount = 0;
+		pointLights[0] = PointLight(0.0f, 1.0f, 0.0f,
+			40.2f, 1.2f,
+			0.0f, 0.0f, 0.0f,
+			1.0f, 0.2f, 0.1f);
+		pointLightCount++;
+		pointLights[1] = PointLight(1.0f, 1.0f, 1.0f,
+			.7f, .7f,
+			-1.0f, 0.0f, 0.0f,
+			1.0f, 0.2f, 0.1f);
+		pointLightCount++;
+
+		currentShader->SetDirectionalLight(&mainLight);
+		currentShader->SetPointLights(pointLights, pointLightCount);
 	}
 }
 void ShaderManager::initShader(Camera* camera)
@@ -135,5 +154,14 @@ void ShaderManager::Activate(const std::string& name)
 		bTex = currentShader->GetbTex();
 		blendTexture = currentShader->GetblendTexture();
 		normalTexture = currentShader->GetNormalTexture();
+
+
+		uniformAmbientColour = currentShader->GetAmbientColourLocation();
+		uniformAmbientIntensity = currentShader->GetAmbientIntensityLocation();
+		uniformDirection = currentShader->GetDirectionLocation();
+		uniformDiffuseIntensity = currentShader->GetDiffuseIntensityLocation();
+		uniformEyePosition = currentShader->GetEyePositionLocation();
+		uniformSpecularIntensity = currentShader->GetSpecularIntensityLocation();
+		uniformShininess = currentShader->GetShininessLocation();
 	}
 }

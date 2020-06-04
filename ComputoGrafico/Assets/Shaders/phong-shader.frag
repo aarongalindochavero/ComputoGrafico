@@ -1,64 +1,111 @@
 #version 330
 
+in vec4 vCol;
 in vec2 TexCoord;
 in vec3 FragPos;
-out vec4 colour;
 in mat3 TBN;	
-in vec3 norm1;
-uniform sampler2D mainTex;
-uniform sampler2D rTex;
-uniform sampler2D gTex;
-uniform sampler2D bTex;
-uniform sampler2D blendTexture;
-uniform sampler2D normalMap;  
+in vec3 Normal1;
+out vec4 colour;
 
-vec3 ADSLightModel( in vec3 myNormal, in vec3 myPosition )
+const int MAX_POINT_LIGHTS = 3;
+
+struct Light
 {
-	const vec3 myLightPosition = vec3( 0.0 , 0.0, -10.0 );
-	const vec3 myLightAmbient = vec3( 0.42, 0.42, 0.42 );
-	const vec3 myLightDiffuse = vec3( 1.0 , 1.0 , 1.0 );
-	const vec3 myLightSpecular = vec3( 1.0 , 1.0 , 1.0 );
-	const vec3 myMaterialAmbient = vec3( 0.5 , 0.5, 0.5 );
-	const vec3 myMaterialDiffuse = vec3( 0.5 , 0.5, 0.5 );
-	const vec3 myMaterialSpecular = vec3( 0.92, 0.92, 0.92 );
-	const float myMaterialShininess = 0.01;
-	//normal, light, view, and light reflection vectors
-	vec3 norm = normalize( myNormal );
-	vec3 lightv = normalize( myLightPosition - myPosition);
-	vec3 viewv = normalize( vec3(0.,0.,0.) - myPosition );
-	vec3 refl = reflect( vec3(0.,0.,0.) - lightv, norm );
-	//ambient light computation
-	vec3 ambient = myMaterialAmbient*myLightAmbient;
-	//diffuse light computation
-	vec3 diffuse = max(0.0, dot(lightv, norm)) * myMaterialDiffuse *myLightDiffuse;
-	//Optionally you can add a diffuse attenuation term at this
-	//point
-	//specular light computation
-	vec3 specular = vec3( 0.0, 0.0, 0.0 );
-	if( dot(lightv, viewv) > 0.0)
+	vec3 colour;
+	float ambientIntensity;
+	float diffuseIntensity;
+};
+
+struct DirectionalLight 
+{
+	Light base;
+	vec3 direction;
+};
+
+struct PointLight
+{
+	Light base;
+	vec3 position;
+	float constant;
+	float linear;
+	float exponent;
+};
+
+struct Material
+{
+	float specularIntensity;
+	float shininess;
+};
+
+uniform int pointLightCount;
+
+uniform DirectionalLight directionalLight;
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
+
+uniform sampler2D theTexture;
+uniform sampler2D normalMap;  
+uniform Material material;
+
+uniform vec3 eyePosition;
+
+vec4 CalcLightByDirection(Light light, vec3 direction)
+{
+    vec3 Normal = texture(normalMap, TexCoord).rgb;
+    Normal = normalize(Normal*2-1);  
+	Normal = normalize(TBN * Normal); 
+//
+	vec4 ambientColour = vec4(light.colour, 1.0f) * light.ambientIntensity;
+	
+	float diffuseFactor = max(dot(normalize(Normal), normalize(direction)), 0.0f);
+	vec4 diffuseColour = vec4(light.colour * light.diffuseIntensity * diffuseFactor, 1.0f);
+	
+	vec4 specularColour = vec4(0, 0, 0, 0);
+	
+	if(diffuseFactor > 0.0f)
 	{
-	 specular = pow(max(0.0, dot(viewv,refl)), myMaterialShininess)*myMaterialSpecular*	myLightSpecular;
+		vec3 fragToEye = normalize(eyePosition - FragPos);
+		vec3 reflectedVertex = normalize(reflect(direction, normalize(Normal)));
+		
+		float specularFactor = dot(fragToEye, reflectedVertex);
+		if(specularFactor > 0.0f)
+		{
+			specularFactor = pow(specularFactor, material.shininess);
+			specularColour = vec4(light.colour * material.specularIntensity * specularFactor, 1.0f);
+		}
 	}
-	return clamp( ambient + diffuse + specular, 0.0, 1.0);
+
+	return (ambientColour + diffuseColour + specularColour);
+}
+
+vec4 CalcDirectionalLight()
+{
+	return CalcLightByDirection(directionalLight.base, directionalLight.direction);
+}
+
+vec4 CalcPointLights()
+{
+	vec4 totalColour = vec4(0, 0, 0, 0);
+	for(int i = 0; i < pointLightCount; i++)
+	{
+		vec3 direction = FragPos - pointLights[i].position;
+		float distance = length(direction);
+		direction = normalize(direction);
+		vec4 colour = CalcLightByDirection(pointLights[i].base, direction);
+		float attenuation = pointLights[i].exponent * distance * distance +
+							pointLights[i].linear * distance +
+							pointLights[i].constant;
+		
+		totalColour += (colour / attenuation);
+	}
+	
+	return totalColour;
 }
 
 void main()
 {
 
-    vec3 Normal = texture(normalMap, TexCoord).rgb;
-    Normal = normalize(Normal*2-1);  
-	Normal = normalize(TBN * Normal); 
-
-	vec4 finalColour = vec4(ADSLightModel(Normal,FragPos),1.0f);
+	vec4 finalColour = CalcDirectionalLight();
+	finalColour += CalcPointLights();
 	
-
-	vec4 blendColor =  texture(blendTexture, TexCoord);
-	float mainTexture = 1- (blendColor.r+blendColor.g+blendColor.b);
-	vec4 mainTextureColor = texture(mainTex,TexCoord)*mainTexture;
-	vec4 rTexColor = texture(rTex,TexCoord)*blendColor.r;
-	vec4 gTexColor = texture(gTex,TexCoord)*blendColor.g;
-	vec4 bTexColor = texture(bTex,TexCoord)*blendColor.b;
-
-	vec4 finalTextureColor = mainTextureColor+rTexColor+gTexColor+bTexColor;
-	colour =  finalTextureColor*finalColour;
+	colour = texture(normalMap, TexCoord) * finalColour;
 }

@@ -47,6 +47,10 @@ private:
 		uniformSpecularIntensity = 0, uniformShininess = 0,
 		myMaterialAmbient = 0, myLightAmbient = 0;
 
+
+	DirectionalLight mainLight;
+	PointLight pointLights[MAX_POINT_LIGHTS];
+
 	GLuint mainTex;
 	GLuint rTex;
 	GLuint gTex;

@@ -133,6 +133,9 @@
     <ClCompile Include="CGE\Base\Transform.cpp" />
     <ClCompile Include="CGE\Graphic\BaseModel.cpp" />
     <ClCompile Include="CGE\Graphic\Camera.cpp" />
+    <ClCompile Include="CGE\Graphic\Lights\DirectionalLight.cpp" />
+    <ClCompile Include="CGE\Graphic\Lights\Light.cpp" />
+    <ClCompile Include="CGE\Graphic\Lights\PointLight.cpp" />
     <ClCompile Include="CGE\Graphic\Mesh.cpp" />
     <ClCompile Include="CGE\Graphic\Model.cpp" />
     <ClCompile Include="CGE\Graphic\Shader.cpp" />
@@ -149,6 +152,9 @@
     <ClInclude Include="CGE\Base\Transform.h" />
     <ClInclude Include="CGE\Graphic\BaseModel.h" />
     <ClInclude Include="CGE\Graphic\Camera.h" />
+    <ClInclude Include="CGE\Graphic\Lights\DirectionalLight.h" />
+    <ClInclude Include="CGE\Graphic\Lights\Light.h" />
+    <ClInclude Include="CGE\Graphic\Lights\PointLight.h" />
     <ClInclude Include="CGE\Graphic\Mesh.h" />
     <ClInclude Include="CGE\Graphic\Model.h" />
     <ClInclude Include="CGE\Graphic\Shader.h" />
