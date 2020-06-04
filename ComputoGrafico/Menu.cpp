@@ -119,7 +119,7 @@ void Menu::Draw()
 	shaderManager->Activate("phong-shader");
 	shaderManager->draw();
 	glm::mat4 model(1);
-	GLint uniformModel = shaderManager->GetModelLocation();
+	GLint uniformModel = shaderManager->GetUniformId("model"); 
 	model = glm::translate(model, glm::vec3(0.0f, -10.0f, -2.5f));
 	model = glm::scale(model, glm::vec3(100.0f, 10.0f, 100.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));

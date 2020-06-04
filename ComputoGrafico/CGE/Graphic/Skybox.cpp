@@ -8,8 +8,8 @@ Skybox::Skybox(std::vector<std::string> faceLocations)
 	shaderManager->LoadShaders("skybox", "Assets/Shaders/skybox.vert", "Assets/Shaders/skybox.frag");
 
 
-	uniformProjection = shaderManager->GetProjectionLocation();
-	uniformView = shaderManager->GetViewLocation();
+	uniformProjection = shaderManager->GetUniformId("projection");
+	uniformView = shaderManager->GetUniformId("view");
 
 
 	// Texture Setup

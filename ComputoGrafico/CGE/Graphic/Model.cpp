@@ -18,7 +18,7 @@
 		void Model::Draw()
 		{
 			GLuint uniformModel = 0;
-			uniformModel = ShaderManager::getPtr()->GetModelLocation();
+			uniformModel = ShaderManager::getPtr()->GetUniformId("model");
 			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(transform->GetTransform()));
 
 
