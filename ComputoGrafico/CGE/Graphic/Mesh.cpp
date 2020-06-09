@@ -12,11 +12,22 @@
 			indexCount = 0;
 		}
 
-		void Mesh::CreateMesh(std::vector<GLfloat> vertices, unsigned int *indices, unsigned int numOfVertices, unsigned int numOfIndices, unsigned int vSize)
+		void Mesh::CreateMesh(std::vector<GLfloat> vNTU, unsigned int *indices, unsigned int numOfVertices, unsigned int numOfIndices, unsigned int vSize)
 		{
 			indexCount = numOfIndices;
-			this->vertices = vertices;
-			InitBox();
+		
+			for (int i = 0; i < vNTU.size(); i+= vSize)
+			{
+				GLfloat x = vNTU[i];
+				GLfloat y = vNTU[i + 1];
+				GLfloat z = vNTU[i + 2];
+				this->vertex.push_back(x);
+				this->vertex.push_back(y);
+				this->vertex.push_back(z);
+			}
+
+			InitBoundingBox();
+
 			glGenVertexArrays(1, &VAO);
 			glBindVertexArray(VAO);
 
@@ -26,7 +37,7 @@
 
 			glGenBuffers(1, &VBO);
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numOfVertices, &vertices[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numOfVertices, &vNTU[0], GL_STATIC_DRAW);
 
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * vSize, 0);
 			glEnableVertexAttribArray(0);
@@ -60,7 +71,7 @@
 
 		const std::vector<GLfloat>* Mesh::GetVertices()
 		{
-			return &vertices;
+			return &vertex;
 		}
 		void Mesh::ClearMesh()
 		{
@@ -91,17 +102,40 @@
 			ClearMesh();
 		}
 
-		void Mesh::InitBox()
+		void Mesh::PushVertex(GLfloat x, GLfloat y, GLfloat z)
 		{
-			min_x = max_x = vertices[0];
-			min_y = max_y = vertices[1];
-			min_z = max_z = vertices[2];
-			for (int i = 0; i < vertices.size() - 3; i += 3) {
-				if (vertices[i] < min_x) min_x = vertices[i];
-				if (vertices[i] > max_x) max_x = vertices[i];
-				if (vertices[i + 1] < min_y) min_y = vertices[i + 1];
-				if (vertices[i + 1] > max_y) max_y = vertices[i + 1];
-				if (vertices[i + 2] < min_z) min_z = vertices[i + 2];
-				if (vertices[i + 2] > max_z) max_z = vertices[i + 2];
+			vertexBoundingBox.push_back(x);
+			vertexBoundingBox.push_back(y);
+			vertexBoundingBox.push_back(z);
+		}
+
+		void Mesh::InitBoundingBox()
+		{
+			std::vector<GLfloat> min(3);
+			std::vector<GLfloat> max(3);
+			min[0] = max[0] = vertex[0];
+			min[1] = max[1] = vertex[1];
+			min[2] = max[2] = vertex[2];
+			for (int i = 0; i < vertex.size(); i += 3)
+			{
+				if (vertex[i] < min[0]) min[0] = vertex[i];
+				if (vertex[i] > max[0]) max[0] = vertex[i];
+				if (vertex[i + 1] < min[1]) min[1] = vertex[i + 1];
+				if (vertex[i + 1] > max[1]) max[1] = vertex[i + 1];
+				if (vertex[i + 2] < min[2]) min[2] = vertex[i + 2];
+				if (vertex[i + 2] > max[2]) max[2] = vertex[i + 2];
 			}
+			PushVertex(min[0], min[1], min[2]);
+			PushVertex(max[0], min[1], min[2]);
+			PushVertex(max[0], min[1], max[2]);
+			PushVertex(min[0], min[1], max[2]);
+			PushVertex(min[0], max[1], min[2]);
+			PushVertex(max[0], max[1], min[2]);
+			PushVertex(max[0], max[1], max[2]);
+			PushVertex(min[0], max[1], max[2]);
+		}
+
+		const std::vector<GLfloat>* Mesh::GetVertexBoundingBox()
+		{
+			return &vertexBoundingBox;
 		}

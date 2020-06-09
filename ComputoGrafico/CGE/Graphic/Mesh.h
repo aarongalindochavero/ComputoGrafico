@@ -13,18 +13,17 @@
 			void ClearMesh();
 			const std::vector<GLfloat>* GetVertices();
 			~Mesh();
-
-			void InitBox();
-         
-
+			//update BoundingBox adidier
+			//draw BoundingBox
+			//check colision abb
+			void InitBoundingBox();
+			const std::vector<GLfloat> *GetVertexBoundingBox();
 		private:
-
-			std::vector<GLfloat> vertices;
+			void PushVertex(GLfloat x, GLfloat y, GLfloat z);
+			std::vector<GLfloat> vertex;
 			GLuint VAO, VBO, IBO;
 			GLsizei indexCount;
-
-			GLfloat min_x, max_x,
-					min_y, max_y,
-					min_z, max_z;
+			std::vector<GLfloat> vertexBoundingBox;
 		};
+
 
