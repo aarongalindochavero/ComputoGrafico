@@ -5,16 +5,6 @@
 		{
 		}
 
-		void Model::Init()
-		{
-
-		}
-
-		void Model::LoadMesh()
-		{
-
-		}
-
 		void Model::Draw()
 		{
 			GLuint uniformModel = 0;
@@ -90,7 +80,7 @@
 			}
 
 			Mesh* newMesh = new Mesh();
-			newMesh->CreateMesh(&vertices[0], &indices[0], vertices.size(), indices.size(),11);
+			newMesh->CreateMesh(vertices, &indices[0], vertices.size(), indices.size(),11);
 			meshList.push_back(newMesh);
 			meshToTex.push_back(mesh->mMaterialIndex);
 		}

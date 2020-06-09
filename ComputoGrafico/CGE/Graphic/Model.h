@@ -18,9 +18,7 @@ class Model : public BaseModel
 {
 public:
 	Model();
-	virtual void Init() override;
-	void LoadModel(const std::string& fileName); // Adidier regresa
-	virtual void LoadMesh() override;
+	void LoadModel(const std::string& fileName); 
 	virtual void Draw() override;
 	void ClearModel();
 	~Model();
@@ -31,7 +29,6 @@ private:
 	void LoadMesh(aiMesh *mesh, const aiScene *scene);
 	void LoadMaterials(const aiScene *scene);
 
-	std::vector<Mesh*> meshList;
 	std::vector<Texture*> textureList;
 	std::vector<Texture*> textureNormalList;
 	std::vector<unsigned int> meshToTex;

@@ -11,3 +11,8 @@
 		{
 			transform = nullptr;
 		}
+
+		const std::vector<Mesh*>* BaseModel::GetMesh()
+		{
+			return &meshList;
+		}

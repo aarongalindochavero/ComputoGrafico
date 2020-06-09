@@ -81,14 +81,14 @@ void Menu::LoadModels()
 				1,2,3,
 	};
 
-	GLfloat vertices[] = {
+	std::vector<GLfloat> vertices = {
 		// floor
 		-1.0, -1.0,  -1.0, 0.0f, 0.0f,		0.0f, 0.0f, 0.8f,1.0f, 0.0f, 0.0f,//0
 		-1.0, -1.0,  1.0,0.0f, 1.0f,		0.0f, 0.0f, 0.0f,1.0f, 0.0f, 0.0f,//1
 		1.0,  -1.0,  -1.0,1.0f, 0.0f,		0.0f, 0.0f, 0.0f,1.0f, 0.0f, 0.0f,//2
 		1.0,  -1.0,  1.0,1.0f, 1.0f,		0.0f, 0.0f, 0.0f,1.0f, 0.0f, 0.0f,//3
 	};
-	calcAverageNormals(indices, 6, vertices, 44, 11, 5);
+	//calcAverageNormals(indices, 6, vertices, 44, 11, 5);
 	Mesh *obj1 = new Mesh();
 	obj1->CreateMesh(vertices, indices, 44, 6, 11);
 	meshList.push_back(obj1);

@@ -92,13 +92,13 @@ void ShaderManager::draw()
 		glUniformMatrix4fv(currentShader->GetUniformId("projection"), 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(currentShader->GetUniformId("view"), 1, GL_FALSE, glm::value_ptr(camera->calculateViewMatrix()));
 
-		mainLight = DirectionalLight(0.0f, 0.0f, 0.0f,
+		mainLight = DirectionalLight(0.5f, 0.5f, 0.5f,
 			1.0, 1.0f,
 			0.0f, 0.0f, -1.0f);
 
 		unsigned int pointLightCount = 0;
 		pointLights[0] = PointLight(0.0f, 1.0f, 0.0f,
-			40.2f, 1.2f,
+			0.7f, 1.2f,
 			0.0f, 0.0f, 0.0f,
 			1.0f, 0.2f, 0.1f);
 		pointLightCount++;

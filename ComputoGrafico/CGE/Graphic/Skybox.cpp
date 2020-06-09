@@ -61,7 +61,7 @@ Skybox::Skybox(std::vector<std::string> faceLocations)
 		3, 6, 7
 	};
 
-	float skyboxVertices[] = {
+	std::vector<GLfloat> skyboxVertices = {
 		-1.0f, 1.0f, -1.0f,		
 		-1.0f, -1.0f, -1.0f,	
 		1.0f, 1.0f, -1.0f,		
