@@ -7,7 +7,6 @@
 		{
 		public:
 			Mesh();
-
 			void CreateMesh(std::vector<GLfloat> vertices, unsigned int *indices, unsigned int numOfVertices, unsigned int numOfIndices, unsigned int vSize);
 			void RenderMesh();
 			void ClearMesh();
