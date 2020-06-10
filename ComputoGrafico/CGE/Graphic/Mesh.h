@@ -14,7 +14,13 @@
 			~Mesh();
 			//update BoundingBox adidier
 			//draw BoundingBox
-			//check colision abb
+			//check colision 
+			/* 
+				bool CheckColision( std::vector<GLfloat> box1,std::vector<GLfloat> box2)
+				{
+
+					return 
+				}*/
 			void InitBoundingBox();
 			const std::vector<GLfloat> *GetVertexBoundingBox();
 		private:
