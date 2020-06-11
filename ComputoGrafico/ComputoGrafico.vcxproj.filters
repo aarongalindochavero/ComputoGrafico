@@ -29,6 +29,9 @@
     <Filter Include="CGE\Graphic\Lights">
       <UniqueIdentifier>{658e3bb2-469b-45c5-9014-4f679046ae01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CGE\Physics">
+      <UniqueIdentifier>{1b45bf6f-7d94-4d26-91ba-e46cc7b46218}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -82,6 +85,9 @@
     <ClCompile Include="CGE\Graphic\Lights\PointLight.cpp">
       <Filter>CGE\Graphic\Lights</Filter>
     </ClCompile>
+    <ClCompile Include="CGE\Physics\Physics.cpp">
+      <Filter>CGE\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -131,6 +137,9 @@
     </ClInclude>
     <ClInclude Include="CGE\Graphic\Lights\PointLight.h">
       <Filter>CGE\Graphic\Lights</Filter>
+    </ClInclude>
+    <ClInclude Include="CGE\Physics\Physics.h">
+      <Filter>CGE\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

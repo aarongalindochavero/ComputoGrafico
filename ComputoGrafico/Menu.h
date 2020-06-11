@@ -26,8 +26,10 @@ private:
 	ShaderManager* shaderManager;
 	Camera camera;
 	float angle;
-	Model* weapon;
-	Transform transform;
+	Model* model1;
+	Model* model2;
+	Transform transformModel1;
+	Transform transformModel2;
 	Skybox *skybox;
 public:
 	Menu();

@@ -106,7 +106,6 @@
 			}
 		}
 
-
 		void Model::AddTexture(std::string path)
 		{
 			

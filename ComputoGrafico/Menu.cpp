@@ -2,6 +2,7 @@
 #include<iostream>
 #include <glm.hpp>
 #include <time.h>
+#include "CGE/Physics/Physics.h"
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
 
@@ -56,10 +57,16 @@ void Menu::Init()
 	shaderManager->LoadShaders("toon-shader", "Assets/Shaders/toon-shader.vert", "Assets/Shaders/toon-shader.frag");
 		
 	LoadModels();
-	weapon = new Model();
-	weapon->LoadModel("Assets/Models/pina_pose.obj");
-	weapon->AddTexture("pina.png");
-	weapon->AddTexture("pina_normal.png");
+	model1 = new Model();
+	model1->LoadModel("Assets/Models/pina_pose.obj");
+	model1->AddTexture("pina.png");
+	model1->AddTexture("pina_normal.png");
+
+	model2 = new Model();
+	model2->LoadModel("Assets/Models/pina_pose.obj");
+	model2->AddTexture("pina.png");
+	model2->AddTexture("pina_normal.png");
+
 
 	srand(time(NULL));
 	angle = 0;
@@ -157,11 +164,23 @@ void Menu::Draw()
 
 	shaderManager->Activate("phong-shader");
 	shaderManager->draw();
-	transform.SetTranslation(0.0f, 0.0f, 0.0f);
-	transform.SetScale(1.1f, 1.1f, 1.11f);
-	transform.SetRotation(0, 0, 0);
-	weapon->SetTransform(&transform);
-	weapon->Draw();
+	transformModel1.SetTranslation(3.0f, 3.0f, 0.0f);
+	transformModel1.SetScale(1.1f, 1.1f, 1.11f);
+	transformModel1.SetRotation(0, 0, 0);
+	model1->SetTransform(&transformModel1);
+	model1->Draw();
+	
+	transformModel2.SetTranslation(0.0f, 0.0f, 0.0f);
+	transformModel2.SetScale(1.1f, 1.1f, 1.11f);
+	transformModel2.SetRotation(90, 0, 0);
+	model2->SetTransform(&transformModel2);
+	model2->Draw();
+	
+	
+
+	auto vertexModel1BB = model1->GetMesh()->UpdateBoundingBox(transformModel1.GetTransform());
+	auto vertexModel2BB = model2->GetMesh()->UpdateBoundingBox(transformModel2.GetTransform());
+	bool ok = Physics::CheckColision(vertexModel1BB, vertexModel2BB);
 	platform->RenderPresent();
 }
 bool Menu::MouseInput(int x, int y, bool leftbutton)

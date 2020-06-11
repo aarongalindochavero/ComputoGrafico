@@ -104,9 +104,7 @@
 
 		void Mesh::PushVertex(GLfloat x, GLfloat y, GLfloat z)
 		{
-			vertexBoundingBox.push_back(x);
-			vertexBoundingBox.push_back(y);
-			vertexBoundingBox.push_back(z);
+			vertexBoundingBox.push_back(glm::vec4(x,y,z,1));
 		}
 
 		void Mesh::InitBoundingBox()
@@ -135,7 +133,17 @@
 			PushVertex(min[0], max[1], max[2]);
 		}
 
-		const std::vector<GLfloat>* Mesh::GetVertexBoundingBox()
+		const std::vector<glm::vec4>* Mesh::GetVertexBoundingBox()
 		{
 			return &vertexBoundingBox;
+		}
+
+		std::vector<glm::vec4>  Mesh::UpdateBoundingBox(glm::mat4 transform)
+		{
+			std::vector<glm::vec4> vector;
+			for (auto element : vertexBoundingBox)
+			{
+				vector.push_back( transform * element);
+			}
+			return vector;
 		}

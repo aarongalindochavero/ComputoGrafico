@@ -141,6 +141,7 @@
     <ClCompile Include="CGE\Graphic\Shader.cpp" />
     <ClCompile Include="CGE\Graphic\Skybox.cpp" />
     <ClCompile Include="CGE\Graphic\Texture.cpp" />
+    <ClCompile Include="CGE\Physics\Physics.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="CGE\Graphic\Shader.h" />
     <ClInclude Include="CGE\Graphic\Skybox.h" />
     <ClInclude Include="CGE\Graphic\Texture.h" />
+    <ClInclude Include="CGE\Physics\Physics.h" />
     <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>

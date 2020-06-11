@@ -2,7 +2,9 @@
 
 #include <GL\glew.h>
 #include <vector>
-
+#include "glm.hpp"
+#include <gtc\matrix_transform.hpp>
+#include <gtc\type_ptr.hpp>
 		class Mesh
 		{
 		public:
@@ -22,13 +24,14 @@
 					return 
 				}*/
 			void InitBoundingBox();
-			const std::vector<GLfloat> *GetVertexBoundingBox();
+			std::vector<glm::vec4>  UpdateBoundingBox(glm::mat4 transform);
+			const std::vector<glm::vec4> *GetVertexBoundingBox();
 		private:
 			void PushVertex(GLfloat x, GLfloat y, GLfloat z);
 			std::vector<GLfloat> vertex;
 			GLuint VAO, VBO, IBO;
 			GLsizei indexCount;
-			std::vector<GLfloat> vertexBoundingBox;
+			std::vector<glm::vec4> vertexBoundingBox;
 		};
 
 

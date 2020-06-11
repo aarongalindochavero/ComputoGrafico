@@ -12,7 +12,7 @@
 			transform = nullptr;
 		}
 
-		const std::vector<Mesh*>* BaseModel::GetMesh()
+		Mesh* BaseModel::GetMesh()
 		{
-			return &meshList;
+			return meshList[0];
 		}
