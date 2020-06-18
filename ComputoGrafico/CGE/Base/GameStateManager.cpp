@@ -34,10 +34,10 @@ void GameStateManager::GameLoop()
 			{
 				break;
 			}
-			platform->CheckEvent(state, &GameState::Input, &GameState::MouseInput);
+			
 			state->Update();
 			state->Draw();
-
+			platform->CheckEvent(state, &GameState::Input, &GameState::MouseInput);
 		}
 		catch (...)
 		{

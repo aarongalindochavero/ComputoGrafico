@@ -14,15 +14,6 @@
 			void ClearMesh();
 			const std::vector<GLfloat>* GetVertices();
 			~Mesh();
-			//update BoundingBox adidier
-			//draw BoundingBox
-			//check colision 
-			/* 
-				bool CheckColision( std::vector<GLfloat> box1,std::vector<GLfloat> box2)
-				{
-
-					return 
-				}*/
 			void InitBoundingBox();
 			std::vector<glm::vec4>  UpdateBoundingBox(glm::mat4 transform);
 			const std::vector<glm::vec4> *GetVertexBoundingBox();

@@ -1,4 +1,4 @@
-#include "Menu.h"
+#include "Game.h"
 #include<iostream>
 #include <glm.hpp>
 #include <time.h>
@@ -6,58 +6,154 @@
 #include <gtc\matrix_transform.hpp>
 #include <gtc\type_ptr.hpp>
 
-void calcAverageNormals(unsigned int* indices, unsigned int indiceCount, GLfloat* vertices, unsigned int verticeCount,
-	unsigned int vLength, unsigned int normalOffset)
-{
-	for (size_t i = 0; i < indiceCount; i += 3)
-	{
-		unsigned int in0 = indices[i] * vLength;
-		unsigned int in1 = indices[i + 1] * vLength;
-		unsigned int in2 = indices[i + 2] * vLength;
-		glm::vec3 v1(vertices[in1] - vertices[in0], vertices[in1 + 1] - vertices[in0 + 1], vertices[in1 + 2] - vertices[in0 + 2]);
-		glm::vec3 v2(vertices[in2] - vertices[in0], vertices[in2 + 1] - vertices[in0 + 1], vertices[in2 + 2] - vertices[in0 + 2]);
-		glm::vec3 normal = glm::cross(v1, v2);
-		normal = glm::normalize(normal);
 
-		in0 += normalOffset; in1 += normalOffset; in2 += normalOffset;
-		vertices[in0] += normal.x; vertices[in0 + 1] += normal.y; vertices[in0 + 2] += normal.z;
-		vertices[in1] += normal.x; vertices[in1 + 1] += normal.y; vertices[in1 + 2] += normal.z;
-		vertices[in2] += normal.x; vertices[in2 + 1] += normal.y; vertices[in2 + 2] += normal.z;
-	}
-
-	for (size_t i = 0; i < verticeCount / vLength; i++)
-	{
-		unsigned int nOffset = i * vLength + normalOffset;
-		glm::vec3 vec(vertices[nOffset], vertices[nOffset + 1], vertices[nOffset + 2]);
-		vec = glm::normalize(vec);
-		vertices[nOffset] = vec.x; vertices[nOffset + 1] = vec.y; vertices[nOffset + 2] = vec.z;
-	}
-}
-
-Menu::Menu()
+Game::Game() : player("adidier regresa.obj")
 {
 
 }
 
-Menu::~Menu()
+Game::~Game()
 {
 }
 
-void Menu::Init()
+void Game::Init()
 {
 	std::cout << " Menu Init" << std::endl;
 	this->platform = Platform::GetPtr();
 	this->manager = GameStateManager::GetPtr();
-	camera = Camera(glm::vec3(0, 0, 0.6f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 55.0f, 0.1f);
+	
 	shaderManager = ShaderManager::getPtr();
-	shaderManager->initShader(&camera);
+	shaderManager->initShader(player.GetCamera());
 	shaderManager->LoadShaders("OneColor", "Assets/Shaders/OneColor.vert", "Assets/Shaders/OneColor.frag");
 	shaderManager->LoadShaders("gouraud-shader", "Assets/Shaders/gouraud-shader.vert", "Assets/Shaders/gouraud-shader.frag");
 	shaderManager->LoadShaders("phong-shader", "Assets/Shaders/phong-shader.vert", "Assets/Shaders/phong-shader.frag");
 	shaderManager->LoadShaders("toon-shader", "Assets/Shaders/toon-shader.vert", "Assets/Shaders/toon-shader.frag");
-		
-	LoadModels();
-	model1 = new Model();
+
+	std::vector<std::string> skyboxFaces;
+	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_rt.tga");
+	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_lf.tga");
+	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_up.tga");
+	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_dn.tga");
+	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_bk.tga");
+	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_ft.tga");
+	skybox = new Skybox(skyboxFaces);
+
+	std::vector<std::string> paths = {
+		"Assets/Models/lWall.obj",
+		"Assets/Models/rWall.obj",
+	};
+	LoadModels(paths);
+
+	std::vector<std::string> pathsEnemies = {
+	"Assets/Models/pina_pose.obj"
+	};
+	LoadEnemies(pathsEnemies);
+}
+
+void Game::LoadEnemies(const std::vector<std::string>& pathFileModels)
+{
+	for (auto path : pathFileModels)
+	{
+		Enemy* enemy = new Enemy(&player, path);
+		enemies.push_back(enemy);
+	}
+}
+
+void Game::LoadModels(const std::vector<std::string> &pathFileModels)
+{
+	for (auto path : pathFileModels)
+	{
+		Model *model = new Model();
+		model->LoadModel(path);	
+		model->AddTexture("Assets/Textures/brick.png");
+		map.push_back(model);
+	}
+}
+
+void Game::LoadShaders()
+{
+	
+}
+
+void Game::Draw()
+{
+	platform->RenderClear();
+	skybox->Draw(shaderManager->GetViewMatrix(), shaderManager->GetProjectionMatrix());
+
+	shaderManager->Activate("phong-shader");
+	shaderManager->draw();
+	
+	DrawMap();
+	DrawEnemies();
+
+	platform->RenderPresent();
+}
+void Game::DrawMap()
+{
+	for (auto model : map)
+	{
+		Transform transform;
+		transform.SetTranslation(0.0f, 0.0f, 0.0f);
+		transform.SetScale(1.0f, 1.0f, 1.0f);
+		transform.SetRotation(0, 0, 0);
+		model->SetTransform(transform);
+		model->Draw();
+	}
+}
+
+
+void Game::DrawEnemies()
+{
+	for (auto enemi : enemies)
+	{
+		enemi->Draw();
+	}
+}
+
+void Game::Update()
+{
+
+	for (auto enemi : enemies)
+	{
+		enemi->Update();
+	}
+}
+
+bool Game::MouseInput(int x, int y, bool leftbutton)
+{
+	if (x != -1 || y != -1)
+		player.GetCamera()->mouseControl(x, y);
+	return false;
+}
+
+bool Game::Input(std::map<int, bool> keys)
+{
+	bool ok = false;
+	for (auto model : map)
+	{
+		auto vertexModel1BB = model->GetMesh()->UpdateBoundingBox(glm::mat4(1));
+		if (Physics::CheckColision(vertexModel1BB, player.GetBoundingBox()))
+		{
+			ok = true;
+		}
+	}
+	if (!ok) {
+		player.GetCamera()->keyControl(keys, platform->GetDeltaTime());
+	}
+	
+	return false;
+}
+
+
+
+void Game::Close()
+{
+	std::cout << " Close Init" << std::endl;
+}
+
+/*
+
+model1 = new Model();
 	model1->LoadModel("Assets/Models/pina_pose.obj");
 	model1->AddTexture("pina.png");
 	model1->AddTexture("pina_normal.png");
@@ -71,19 +167,8 @@ void Menu::Init()
 	srand(time(NULL));
 	angle = 0;
 
-	std::vector<std::string> skyboxFaces;
-	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_rt.tga");
-	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_lf.tga");
-	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_up.tga");
-	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_dn.tga");
-	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_bk.tga");
-	skyboxFaces.push_back("Assets/Textures/Skybox/cupertin-lake_ft.tga");
-	skybox = new Skybox(skyboxFaces);
-}
 
-void Menu::LoadModels()
-{
-	unsigned int indices[] = {
+		unsigned int indices[] = {
 				0,1,2,
 				1,2,3,
 	};
@@ -112,21 +197,10 @@ void Menu::LoadModels()
 	blendTexture->LoadTexture();
 	normalTexture = new Texture("Assets/Textures/MultiTexture/bricknormal.png");
 	normalTexture->LoadTexture();
-}
-void Menu::LoadShaders()
-{
-	
-}
 
-void Menu::Draw()
-{
-	platform->RenderClear();
-	skybox->Draw(shaderManager->GetViewMatrix(), shaderManager->GetProjectionMatrix());
 
-	shaderManager->Activate("phong-shader");
-	shaderManager->draw();
 	glm::mat4 model(1);
-	GLint uniformModel = shaderManager->GetUniformId("model"); 
+	GLint uniformModel = shaderManager->GetUniformId("model");
 	model = glm::translate(model, glm::vec3(0.0f, -10.0f, -2.5f));
 	model = glm::scale(model, glm::vec3(100.0f, 10.0f, 100.0f));
 	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
@@ -169,38 +243,15 @@ void Menu::Draw()
 	transformModel1.SetRotation(0, 0, 0);
 	model1->SetTransform(&transformModel1);
 	model1->Draw();
-	
+
 	transformModel2.SetTranslation(0.0f, 0.0f, 0.0f);
 	transformModel2.SetScale(1.1f, 1.1f, 1.11f);
 	transformModel2.SetRotation(90, 0, 0);
 	model2->SetTransform(&transformModel2);
 	model2->Draw();
-	
-	
 
 	auto vertexModel1BB = model1->GetMesh()->UpdateBoundingBox(transformModel1.GetTransform());
 	auto vertexModel2BB = model2->GetMesh()->UpdateBoundingBox(transformModel2.GetTransform());
 	bool ok = Physics::CheckColision(vertexModel1BB, vertexModel2BB);
-	platform->RenderPresent();
-}
-bool Menu::MouseInput(int x, int y, bool leftbutton)
-{
-	if (x != -1 || y != -1)
-		camera.mouseControl(x, y);
-	return false;
-}
 
-bool Menu::Input(std::map<int, bool> keys)
-{
-	camera.keyControl(keys, platform->GetDeltaTime());
-	return false;
-}
-
-void Menu::Update()
-{
-}
-
-void Menu::Close()
-{
-	std::cout << " Close Init" << std::endl;
-}
+*/

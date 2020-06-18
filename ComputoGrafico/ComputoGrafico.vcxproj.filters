@@ -37,9 +37,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="CGE\Base\GameState.cpp">
       <Filter>CGE\Base</Filter>
     </ClCompile>
@@ -88,11 +85,14 @@
     <ClCompile Include="CGE\Physics\Physics.cpp">
       <Filter>CGE\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Menu.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="CGE\Base\GameState.h">
       <Filter>CGE\Base</Filter>
     </ClInclude>
@@ -141,6 +141,12 @@
     <ClInclude Include="CGE\Physics\Physics.h">
       <Filter>CGE\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Default\default.frag">

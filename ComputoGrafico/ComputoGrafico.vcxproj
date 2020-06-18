@@ -142,8 +142,11 @@
     <ClCompile Include="CGE\Graphic\Skybox.cpp" />
     <ClCompile Include="CGE\Graphic\Texture.cpp" />
     <ClCompile Include="CGE\Physics\Physics.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGE\Base\GameState.h" />
@@ -162,7 +165,10 @@
     <ClInclude Include="CGE\Graphic\Skybox.h" />
     <ClInclude Include="CGE\Graphic\Texture.h" />
     <ClInclude Include="CGE\Physics\Physics.h" />
-    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Default\default.frag" />

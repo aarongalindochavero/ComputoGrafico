@@ -13,11 +13,11 @@
 		public:
 			BaseModel();
 			virtual void Draw() = 0;
-			void SetTransform(Transform* transform);
+			void SetTransform(Transform transform);
 			Mesh* GetMesh();
 		protected:
 			std::vector<Mesh*> meshList;
-			Transform *transform;
+			Transform transform;
 			std::vector<GLfloat> vertices;
 			
 		};

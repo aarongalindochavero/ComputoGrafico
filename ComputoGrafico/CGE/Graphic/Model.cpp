@@ -7,10 +7,11 @@
 
 		void Model::Draw()
 		{
+
 			GLuint uniformModel = 0;
 			uniformModel = ShaderManager::getPtr()->GetUniformId("model");
-			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(transform->GetTransform()));
-
+			glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(transform.GetTransform()));
+		
 
 			for (size_t i = 0; i < meshList.size(); i++)
 			{
@@ -112,15 +113,15 @@
 			int idx = std::string(path).rfind("\\");
 			std::string filename = std::string(path).substr(idx + 1);
 
-			std::string texPath = std::string("Assets/Textures/") + filename;
 			Texture* texture;
-			texture = new Texture(texPath.c_str());
+			texture = new Texture(filename.c_str());
 
 			if (!texture->LoadTextureA())
 			{
-				printf("Failed to load texture at: %s\n", texPath);
+				printf("Failed to load texture at: %s\n", filename);
 				delete texture;
 				texture = nullptr;
+				return;
 			}
 			textureList.push_back(texture);
 		}
