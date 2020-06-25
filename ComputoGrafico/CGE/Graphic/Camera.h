@@ -29,7 +29,7 @@ private:
 	bool shaderChange = true;
 
 	GLfloat yaw;
-	//GLfloat pitch;
+	GLfloat pitch;
 
 	GLfloat moveSpeed;
 	GLfloat turnSpeed;

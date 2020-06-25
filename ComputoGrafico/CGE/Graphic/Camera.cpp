@@ -1,4 +1,5 @@
 #include "Camera.h"
+
 Camera::Camera() {}
 
 Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLfloat startPitch, GLfloat startMoveSpeed, GLfloat startTurnSpeed)
@@ -7,6 +8,7 @@ Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, GLfloat startYaw, GLf
 	position = startPosition;
 	worldUp = startUp;
 	yaw = startYaw;
+	pitch = startPitch;
 	
 	front = glm::vec3(0.0f, 0.0f, -1.0f);
 
@@ -94,7 +96,7 @@ glm::mat4 Camera::calculateViewMatrix()
 void Camera::update()
 {
 	front.x = cos(glm::radians(yaw));
-	front.y = 0;//sin(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
 	front.z = sin(glm::radians(yaw));
 	front = glm::normalize(front);
 	
