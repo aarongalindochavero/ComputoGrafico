@@ -19,6 +19,7 @@ private:
 	Skybox *skybox;
 	Player player;
 	std::vector<Model*> map;
+	std::vector<Model*> mapPlane;
 
 	std::vector<Enemy*> enemies;
 
@@ -28,6 +29,10 @@ public:
 	void Init() override;
 	void Draw() override;
 	void DrawMap();
+	void DrawMap2();
+	void DrawMap3();
+	void DrawMap4();
+	void DrawMapPlane();
 	void DrawEnemies();
 	bool Input(std::map<int, bool> keys) override;
 	bool MouseInput(int x, int y, bool leftbutton);
@@ -35,6 +40,7 @@ public:
 	void Close() override;
 	void LoadShaders();
 	void LoadModels(const std::vector<std::string> &pathFileModels);
+	void LoadModelsPlane(const std::vector<std::string> &pathFileModels);
 	void LoadEnemies(const std::vector<std::string>& pathFileModels);
 };
 

@@ -44,8 +44,13 @@ void Game::Init()
 	};
 	LoadModels(paths);
 
+	std::vector<std::string> pathsPlane = {
+		"Assets/Models/Plane.obj",
+	};
+	LoadModelsPlane(pathsPlane);
+
 	std::vector<std::string> pathsEnemies = {
-	"Assets/Models/pina_pose.obj"
+	"Assets/Models/Pikachu.obj"
 	};
 	LoadEnemies(pathsEnemies);
 }
@@ -65,8 +70,19 @@ void Game::LoadModels(const std::vector<std::string> &pathFileModels)
 	{
 		Model *model = new Model();
 		model->LoadModel(path);	
-		model->AddTexture("Assets/Textures/brick.png");
+		model->AddTexture("Assets/Textures/wall.png");
 		map.push_back(model);
+	}
+}
+
+void Game::LoadModelsPlane(const std::vector<std::string>& pathFileModels)
+{
+	for (auto path : pathFileModels)
+	{
+		Model* model = new Model();
+		model->LoadModel(path);
+		model->AddTexture("Assets/Textures/floor.png");
+		mapPlane.push_back(model);
 	}
 }
 
@@ -84,6 +100,10 @@ void Game::Draw()
 	shaderManager->draw();
 	
 	DrawMap();
+	DrawMap2();
+	DrawMap3();
+	DrawMap4();
+	DrawMapPlane();
 	DrawEnemies();
 
 	platform->RenderPresent();
@@ -100,6 +120,59 @@ void Game::DrawMap()
 		model->Draw();
 	}
 }
+
+void Game::DrawMap2()
+{
+	for (auto model : map)
+	{
+		Transform transform;
+		transform.SetTranslation(9.0f, 0.0f, 9.0f);
+		transform.SetScale(1.0f, 1.0f, 1.0f);
+		transform.SetRotation(0, 1.5, 0);
+		model->SetTransform(transform);
+		model->Draw();
+	}
+}
+
+void Game::DrawMap3()
+{
+	for (auto model : map)
+	{
+		Transform transform;
+		transform.SetTranslation(9.0f, 0.0f, -9.0f);
+		transform.SetScale(1.0f, 1.0f, 1.0f);
+		transform.SetRotation(0, 1.5, 0);
+		model->SetTransform(transform);
+		model->Draw();
+	}
+}
+
+void Game::DrawMap4()
+{
+	for (auto model : map)
+	{
+		Transform transform;
+		transform.SetTranslation(15.0f, 0.0f, 0.0f);
+		transform.SetScale(1.0f, 1.0f, 1.0f);
+		transform.SetRotation(0, 0, 0);
+		model->SetTransform(transform);
+		model->Draw();
+	}
+}
+
+void Game::DrawMapPlane()
+{
+	for (auto model : mapPlane)
+	{
+		Transform transform;
+		transform.SetTranslation(7.5f, 0.5f, 0.0f);
+		transform.SetScale(1.0f, 1.0f, 1.0f);
+		transform.SetRotation(0, 0, 0);
+		model->SetTransform(transform);
+		model->Draw();
+	}
+}
+
 
 
 void Game::DrawEnemies()
@@ -143,8 +216,6 @@ bool Game::Input(std::map<int, bool> keys)
 	
 	return false;
 }
-
-
 
 void Game::Close()
 {
