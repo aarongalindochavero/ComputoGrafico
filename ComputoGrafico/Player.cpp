@@ -1,7 +1,7 @@
 #include "Player.h"
 Player::Player(std::string pathModel)
 {
-	camera = Camera(glm::vec3(10, 3.0, 0.6f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 55.0f, 0.1f);
+	camera = Camera(glm::vec3(10, 1.5, 0.6f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 55.0f, 0.1f);
 	model.LoadModel("Assets/Models/player.obj");
 }
 

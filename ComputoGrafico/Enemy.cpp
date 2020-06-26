@@ -4,12 +4,13 @@ Enemy::Enemy(Player* player,std::string path)
 {
 	this->player = player;
 	model.LoadModel(path);
-	transform.SetTranslation(10.0f, 0.0f, 0.0f);
+	model.AddTexture("Assets/Textures/prueba.png");
+	transform.SetTranslation(9.5f, 1.5f, 0.0f);
 }
 
 void Enemy::Draw()
 {
-	transform.SetScale(0.05f, 0.05f, 0.05f);//adidier
+	transform.SetScale(1.0f, 1.0f, 1.0f);//adidier
 	transform.SetRotation(0, 0, 0);
 	model.SetTransform(transform);
 	model.Draw();
@@ -18,7 +19,7 @@ void Enemy::Draw()
 void Enemy::Update()
 {
 	glm::vec3 dir = player->GetCamera()->getCameraPosition() - transform.GetTranslation();
-	dir = glm::normalize(dir)*0.001f;
+	dir = glm::normalize(dir)*0.0004f;
 	transform.SetTranslation(transform.GetTranslation().x + dir.x,
 		transform.GetTranslation().y + dir.y,
 		transform.GetTranslation().z + dir.z);
